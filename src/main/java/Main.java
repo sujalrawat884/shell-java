@@ -1,5 +1,5 @@
-import java.io.File;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,10 +26,18 @@ public class Main {
                 StringBuilder result = new StringBuilder();
                 boolean inQuotes = false;
                 char quoteType = 0;
+                boolean backcount = echoText.contains("\\"+" "+"\\");
+                boolean singleback = echoText.contains("\\"+"n");
                 
                 for (int i = 0; i < echoText.length(); i++) {
                     char c = echoText.charAt(i);
-                    
+                    if((c == '\\') && !inQuotes && singleback){
+                        continue;
+                    }
+                    if((c == '\\') && !inQuotes && backcount){
+                        result.append(' ');
+                        continue;
+                    }
                     if ((c == '\'' || c == '"') && !inQuotes) {
                         inQuotes = true;
                         quoteType = c;
